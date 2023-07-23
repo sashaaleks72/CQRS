@@ -18,6 +18,8 @@ namespace Application.Mappings.ProductsMapper
         {
             CreateMap<TeapotEntity, GetProductResponseDto>();
             CreateMap<PaginatedData<TeapotEntity>, PaginatedDataDto<GetProductResponseDto>>();
+            CreateMap<AddProductRequestDto, TeapotEntity>();
+            CreateMap<UpdateProductRequestDto, TeapotEntity>();
         }
     }
 }

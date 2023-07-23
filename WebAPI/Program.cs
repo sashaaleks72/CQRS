@@ -1,5 +1,6 @@
 using Application;
 using Infrastructure;
+using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandlers();
 //app.UseAuthorization();
 
 app.MapControllers();
