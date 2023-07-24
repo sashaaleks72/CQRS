@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Repositories;
+﻿using Application.Common.Exceptions;
+using Application.Interfaces.Repositories;
 using Application.Products.DTOs;
 using AutoMapper;
 using Domain.Entities;
@@ -27,7 +28,7 @@ namespace Application.Products.Commands
 
             if (!isUpdated) 
             {
-                throw new Exception("Product hasn't been updated");
+                throw new BadRequestException("Product hasn't been updated");
             }
 
             return "Product has been updated";

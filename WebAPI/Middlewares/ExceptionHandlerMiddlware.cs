@@ -22,6 +22,10 @@ namespace WebAPI.Middlewares
             {
                 await NotFoundExceptionHandler(httpContext, notFoundEx);
             }
+            catch(BadRequestException badRequestEx)
+            {
+                await BadRequestExceptionHandler(httpContext, badRequestEx);
+            }
             catch(Exception ex)
             {
                 await ExceptionHandler(httpContext, ex);
@@ -31,6 +35,16 @@ namespace WebAPI.Middlewares
         private async Task NotFoundExceptionHandler(HttpContext context, NotFoundException notFoundEx)
         {
             context.Response.StatusCode = 404;
+            context.Response.ContentType = "application/json";
+
+            var response = new ErrorDetails(context.Response.StatusCode, notFoundEx.Message);
+
+            await context.Response.WriteAsJsonAsync(response);
+        }
+
+        private async Task BadRequestExceptionHandler(HttpContext context, BadRequestException notFoundEx)
+        {
+            context.Response.StatusCode = 400;
             context.Response.ContentType = "application/json";
 
             var response = new ErrorDetails(context.Response.StatusCode, notFoundEx.Message);

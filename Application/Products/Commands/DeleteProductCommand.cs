@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Repositories;
+﻿using Application.Common.Exceptions;
+using Application.Interfaces.Repositories;
 using AutoMapper;
 using MediatR;
 
@@ -10,7 +11,7 @@ namespace Application.Products.Commands
     {
         private readonly IProductsRepository _repository;
 
-        public DeleteProductHandler(IMapper mapper, IProductsRepository repository) 
+        public DeleteProductHandler(IProductsRepository repository) 
         {
             _repository = repository;
         }
@@ -21,7 +22,7 @@ namespace Application.Products.Commands
 
             if (!isDeleted)
             {
-                throw new Exception("The product with given id hasn't been deleted!");
+                throw new BadRequestException("The product with given id hasn't been deleted!");
             }
 
             return "Product has been deleted!";

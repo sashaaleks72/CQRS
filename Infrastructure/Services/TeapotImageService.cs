@@ -18,7 +18,7 @@ namespace Infrastructure.Services
             _s3Config = options.Value;
         }
 
-        public async Task<UploadResult> UploadImage(Stream image, string contentType)
+        public async Task<UploadResult> UploadImageAsync(Stream image, string contentType)
         {
             var fileName = $"{Guid.NewGuid()}.{contentType.Split("/")[1]}";
 

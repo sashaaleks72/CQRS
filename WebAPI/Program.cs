@@ -14,6 +14,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.Configure<AmazonS3Configuration>(builder.Configuration.GetSection("AWS:Bucket"));
+builder.Services.Configure<AmazonSESConfiguration>(builder.Configuration.GetSection("AWS:SES"));
 
 var app = builder.Build();
 

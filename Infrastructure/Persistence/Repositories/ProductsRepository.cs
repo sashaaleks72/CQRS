@@ -73,5 +73,19 @@ namespace Infrastructure.Persistence.Repositories
 
             return quantityOfUpdatedRows > 0;
         }
+
+        public async Task<bool> UpdateProductImageAsync(Guid productId, string fileName)
+        {
+            var receivedTeapot = await _dbContext.Teapots.SingleOrDefaultAsync(t => t.Id == productId);
+
+            if (receivedTeapot != null)
+            {
+                receivedTeapot.ImgName = fileName;
+            }
+
+            var quantityOfUpdatedRows = await _dbContext.SaveChangesAsync();
+
+            return quantityOfUpdatedRows > 0;
+        }
     }
 }

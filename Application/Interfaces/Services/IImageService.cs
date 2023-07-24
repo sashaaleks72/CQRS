@@ -5,6 +5,6 @@ namespace Application.Interfaces.Services
 {
     public interface IImageService
     {
-        Task<UploadResult> UploadImage(Stream image, string contentType);
+        Task<UploadResult> UploadImageAsync(Stream image, string contentType);
     }
 }

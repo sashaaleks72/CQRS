@@ -15,13 +15,8 @@ namespace WebAPI.Controllers
 {
     public class ProductsController : ApiControllerBase
     {
-        private readonly IAmazonS3 _amazonS3;
-        private readonly AmazonS3Configuration _s3Config;
-
-        public ProductsController(IMediator mediator, IAmazonS3 amazonS3, IOptions<AmazonS3Configuration> options) : base(mediator)
+        public ProductsController(IMediator mediator) : base(mediator)
         {
-            _amazonS3 = amazonS3;
-            _s3Config = options.Value;
         }
 
         [HttpPost("Get")]
@@ -56,7 +51,7 @@ namespace WebAPI.Controllers
 
         [HttpPut("Put")]
         [ProducesResponseType(typeof(string), 200)]
-        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Put(UpdateProductRequestDto data)
         {
             var result = await _mediator.Send(new UpdateProductCommand(data));
@@ -66,7 +61,7 @@ namespace WebAPI.Controllers
 
         [HttpDelete("Delete")]
         [ProducesResponseType(typeof(string), 200)]
-        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _mediator.Send(new DeleteProductCommand(id));
@@ -76,23 +71,13 @@ namespace WebAPI.Controllers
 
         [HttpPut("UploadProductImage")]
         [ProducesResponseType(typeof(string), 200)]
-        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UploadProductImage(Guid productId, IFormFile image)
         {
-            var fileName = $"{Guid.NewGuid().ToString()}.{image.ContentType.Split("/")[1]}";
-            var request = new PutObjectRequest
-            {
-                BucketName = _s3Config.Name,
-                Key = $"{_s3Config.Folders["TeapotImages"]}{fileName}",
-                InputStream = image.OpenReadStream()
-            };
-;
-            request.Metadata.Add("Content-Type", image.ContentType);
+            using var fs = image.OpenReadStream();
+            var result = await _mediator.Send(new UploadProductImageCommand(productId, fs, image.ContentType));
 
-            var response = await _amazonS3.PutObjectAsync(request);
-            //var result = await _mediator.Send(new DeleteProductCommand(id));
-
-            return Ok(response.HttpStatusCode);
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿using Application.Common.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Products.DTOs;
 using AutoMapper;
@@ -13,6 +13,8 @@ namespace Application.Products.Commands
     {
         private readonly IMapper _mapper;
         private readonly IProductsRepository _repository;
+        //private readonly AmazonSimpleEmailServiceClient _emailService;
+        //private readonly IConfiguration _configuration;
 
         public AddProductHandler(IMapper mapper, IProductsRepository repository)
         {
@@ -28,10 +30,45 @@ namespace Application.Products.Commands
 
             if (!isAdded) 
             {
-                throw new Exception("The product hasn't been added!");
+                throw new BadRequestException("The product hasn't been added!");
             }
 
             return "The product has been added!";
         }
     }
 }
+
+/*EMAIL SENDER*/
+//var sender = _configuration["AWS:SES:EmailFrom"];
+
+//var emailRequest = new SendEmailRequest
+//{
+//    Source = sender,
+//    Destination = new Destination
+//    {
+//        ToAddresses = new List<string> { "oleksandr.tretiakov@nure.ua" }
+//    },
+//    Message = new Message
+//    {
+//        Body = new Body
+//        {
+//            Html = new Content
+//            {
+//                Charset = "UTF-8",
+//                Data = "<!DOCTYPE html>" +
+//                "<html>" +
+//                    "<head></head>" +
+//                    "<body>Hello</body>" +
+//                "</html>"
+//            },
+//        },
+//        Subject = new Content
+//        {
+//            Charset = "UTF-8",
+//            Data = "Testing"
+//        }
+//    }
+//};
+
+
+//var response = await _emailService.SendEmailAsync(emailRequest);

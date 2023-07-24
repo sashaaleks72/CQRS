@@ -10,5 +10,6 @@ namespace Application.Interfaces.Repositories
         Task<bool> AddProductAsync(TeapotEntity newTeapot);
         Task<bool> DeleteProductByIdAsync(Guid id);
         Task<bool> UpdateProductAsync(TeapotEntity teapotToUpdate);
+        Task<bool> UpdateProductImageAsync(Guid productId, string fileName); 
     }
 }
