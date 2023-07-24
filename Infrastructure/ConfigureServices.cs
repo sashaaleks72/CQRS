@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Application.Interfaces.Repositories;
 using Infrastructure.Persistence.Repositories;
+using Amazon.S3;
+using Infrastructure.Configurations;
 
 namespace Infrastructure
 {
@@ -19,6 +21,7 @@ namespace Infrastructure
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ApplicationDbContext>(opts => opts.UseLazyLoadingProxies().UseSqlServer(connectionString));
+            services.AddAWSService<IAmazonS3>();
             services.AddRepositories();
 
             return services;
