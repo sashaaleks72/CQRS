@@ -7,6 +7,7 @@ using Application.Products.DTOs;
 using Application.Products.Queries;
 using Infrastructure.Configurations;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Net;
@@ -19,6 +20,7 @@ namespace WebAPI.Controllers
         {
         }
 
+        [Authorize]
         [HttpPost("Get")]
         [ProducesResponseType(typeof(PaginatedDataDto<GetProductResponseDto>), 200)]
         [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.NotFound)]
