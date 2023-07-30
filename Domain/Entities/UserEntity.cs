@@ -8,21 +8,11 @@ public class UserEntity
 
     public string LastName { get; set; } = null!;
 
-    public string Patronymic { get; set; } = null!;
+    public string Username { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 
-    public string HashedPassword { get; set; } = null!;
-
-    public string PasswordSalt { get; set; } = null!;
-
-    public string RefreshToken { get; set; } = null!;
-
     public DateTime Birthday { get; set; }
-
-    public DateTime TokenCreated { get; set; }
-
-    public DateTime TokenExpires { get; set; }
 
     public string Gender { get; set; } = null!;
 

@@ -14,13 +14,14 @@ using System.Net;
 
 namespace WebAPI.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ProductsController : ApiControllerBase
     {
         public ProductsController(IMediator mediator) : base(mediator)
         {
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("Get")]
         [ProducesResponseType(typeof(PaginatedDataDto<GetProductResponseDto>), 200)]
         [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.NotFound)]
@@ -31,6 +32,7 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetById")]
         [ProducesResponseType(typeof(GetProductResponseDto), 200)]
         [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.NotFound)]

@@ -6,6 +6,6 @@
 
         public string RefreshToken { get; set; } = string.Empty;
 
-        public string ExpiresAt { get; set; } = string.Empty;
+        public DateTime ExpiresAt { get; set; }
     }
 }

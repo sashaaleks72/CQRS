@@ -24,6 +24,7 @@ namespace Infrastructure
         private static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IImageService, TeapotImageService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
 
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
@@ -45,7 +46,8 @@ namespace Infrastructure
                     ValidIssuer = $"https://cognito-idp.{configuration["AWS:Region"]}.amazonaws.com/{configuration["AWS:UserPoolId"]}",
                     ValidateLifetime = true,
                     LifetimeValidator = (_, expires, _, _) => expires > DateTime.UtcNow,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    RoleClaimType = "custom:role"
                 };
             });
 
