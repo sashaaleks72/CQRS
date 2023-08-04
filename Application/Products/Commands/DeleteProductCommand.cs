@@ -2,6 +2,7 @@
 using Application.Interfaces.Repositories;
 using AutoMapper;
 using MediatR;
+using System.Net;
 
 namespace Application.Products.Commands
 {
@@ -22,7 +23,7 @@ namespace Application.Products.Commands
 
             if (!isDeleted)
             {
-                throw new BadRequestException("The product with given id hasn't been deleted!");
+                throw new HttpException("The product with given id hasn't been deleted!", HttpStatusCode.BadRequest);
             }
 
             return "Product has been deleted!";

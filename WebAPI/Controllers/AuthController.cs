@@ -1,6 +1,8 @@
 ﻿using Application.Auth.Commands;
 using Application.Auth.DTOs;
+using Application.Auth.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -9,8 +11,18 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthController : ApiControllerBase
     {
+
         public AuthController(IMediator mediator) : base(mediator)
         {
+        }
+
+        [Authorize]
+        [HttpGet("GetUserInfo")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            var response = await _mediator.Send(new GetUserInfoQuery());
+
+            return Ok(response);
         }
 
         [HttpPost("Register")]

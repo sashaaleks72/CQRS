@@ -9,6 +9,8 @@ namespace Application.Mappings.AuthMapper
         public MappingProfile() 
         {
             CreateMap<RegisterRequestDto, UserEntity>();
+            CreateMap<UserEntity, UserInfoResponseDto>()
+                .ForMember(dest => dest.Role, opts => opts.MapFrom(src => src.Role.Name));
         }
     }
 }

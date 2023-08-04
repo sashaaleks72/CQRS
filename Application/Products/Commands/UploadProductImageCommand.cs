@@ -25,14 +25,14 @@ namespace Application.Products.Commands
 
             if (result.StatusCode != HttpStatusCode.OK)
             {
-                throw new BadRequestException("Image hasn't been uploaded");
+                throw new HttpException("Image hasn't been uploaded", HttpStatusCode.BadRequest);
             }
 
             var isUpdated = await _repository.UpdateProductImageAsync(request.Id, result.FileName);
 
             if (!isUpdated)
             {
-                throw new BadRequestException("Product`s img name column hasn't been updated");
+                throw new HttpException("Product`s img name column hasn't been updated", HttpStatusCode.BadRequest);
             }
 
             return $"File {result.FileName} has been uploaded";

@@ -4,6 +4,7 @@ using Application.Interfaces.Repositories;
 using Application.Products.DTOs;
 using AutoMapper;
 using MediatR;
+using System.Net;
 
 namespace Application.Products.Queries
 {
@@ -27,7 +28,7 @@ namespace Application.Products.Queries
 
             if (receivedPaginatedData.Data.Count == 0)
             {
-                throw new NotFoundException("There are no any rows with given params in db");
+                throw new HttpException("There are no any rows with given params in db", HttpStatusCode.NotFound);
             }
 
             var paginatedDataDto = _mapper.Map<PaginatedDataDto<GetProductResponseDto>>(receivedPaginatedData);

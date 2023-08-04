@@ -19,6 +19,7 @@ namespace Infrastructure
         private static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
         }
 
         private static void AddServices(this IServiceCollection services)

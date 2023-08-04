@@ -4,6 +4,7 @@ using Application.Products.DTOs;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using System.Net;
 
 namespace Application.Products.Commands
 {
@@ -28,7 +29,7 @@ namespace Application.Products.Commands
 
             if (!isUpdated) 
             {
-                throw new BadRequestException("Product hasn't been updated");
+                throw new HttpException("Product hasn't been updated", HttpStatusCode.BadRequest);
             }
 
             return "Product has been updated";

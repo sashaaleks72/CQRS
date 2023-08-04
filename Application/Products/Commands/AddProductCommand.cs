@@ -4,6 +4,7 @@ using Application.Products.DTOs;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using System.Net;
 
 namespace Application.Products.Commands
 {
@@ -30,7 +31,7 @@ namespace Application.Products.Commands
 
             if (!isAdded) 
             {
-                throw new BadRequestException("The product hasn't been added!");
+                throw new HttpException("The product hasn't been added!", HttpStatusCode.BadRequest);
             }
 
             return "The product has been added!";

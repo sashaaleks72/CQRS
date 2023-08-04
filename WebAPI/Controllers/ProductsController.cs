@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("Post")]
-        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(string), 200)]  
         [ProducesResponseType(typeof(ErrorDetails), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post(AddProductRequestDto data)
         {

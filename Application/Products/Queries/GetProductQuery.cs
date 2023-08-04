@@ -3,6 +3,7 @@ using Application.Interfaces.Repositories;
 using Application.Products.DTOs;
 using AutoMapper;
 using MediatR;
+using System.Net;
 
 namespace Application.Products.Queries
 {
@@ -25,7 +26,7 @@ namespace Application.Products.Queries
 
             if (receivedProduct == null)
             {
-                throw new NotFoundException("Product with given id hasn't been found!");
+                throw new HttpException("Product with given id hasn't been found!", HttpStatusCode.NotFound);
             }
 
             var response = _mapper.Map<GetProductResponseDto>(receivedProduct);

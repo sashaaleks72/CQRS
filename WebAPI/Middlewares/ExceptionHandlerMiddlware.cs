@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Models;
+using System.Net;
 
 namespace WebAPI.Middlewares
 {
@@ -18,13 +19,9 @@ namespace WebAPI.Middlewares
             {
                 await _next(httpContext);
             }
-            catch(NotFoundException notFoundEx) 
+            catch(HttpException httpEx)
             {
-                await NotFoundExceptionHandler(httpContext, notFoundEx);
-            }
-            catch(BadRequestException badRequestEx)
-            {
-                await BadRequestExceptionHandler(httpContext, badRequestEx);
+                await HttpExceptionHandler(httpContext, httpEx);
             }
             catch(Exception ex)
             {
@@ -32,24 +29,22 @@ namespace WebAPI.Middlewares
             }
         }
 
-        private async Task NotFoundExceptionHandler(HttpContext context, NotFoundException notFoundEx)
+        private async Task HttpExceptionHandler(HttpContext context, HttpException httpEx)
         {
-            context.Response.StatusCode = 404;
-            context.Response.ContentType = "application/json";
+            switch (httpEx.StatusCode)
+            {
+                default:
+                    {
+                        context.Response.StatusCode = (int)httpEx.StatusCode;
+                        context.Response.ContentType = "application/json";
 
-            var response = new ErrorDetails(context.Response.StatusCode, notFoundEx.Message);
 
-            await context.Response.WriteAsJsonAsync(response);
-        }
+                        var response = new ErrorDetails((int)httpEx.StatusCode, httpEx.Message);
 
-        private async Task BadRequestExceptionHandler(HttpContext context, BadRequestException notFoundEx)
-        {
-            context.Response.StatusCode = 400;
-            context.Response.ContentType = "application/json";
-
-            var response = new ErrorDetails(context.Response.StatusCode, notFoundEx.Message);
-
-            await context.Response.WriteAsJsonAsync(response);
+                        await context.Response.WriteAsJsonAsync(response);
+                        break;
+                    }
+            }
         }
 
         private async Task ExceptionHandler(HttpContext context, Exception notFoundEx)
